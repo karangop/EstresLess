@@ -1,9 +1,11 @@
 package cl.karangop.estresless.views.main;
 
 import android.app.Dialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.ShareActionProvider;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -20,6 +22,7 @@ import cl.karangop.estresless.models.Pending;
 public class MainActivity extends AppCompatActivity implements PendingCallback{
 
     private PendingListFragment pendingListFragment;
+    private ShareActionProvider shareActionProvider;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -79,8 +82,15 @@ public class MainActivity extends AppCompatActivity implements PendingCallback{
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_main, menu);
+        getMenuInflater().inflate(R.menu.main, menu);
         return true;
+    }
+
+    private void shareIntent(){
+        Intent shareIntent = new Intent(Intent.ACTION_SEND);
+        shareIntent.setType("text/plain");
+        shareIntent.putExtra(Intent.EXTRA_TEXT, "http://");
+        startActivity(shareIntent);
     }
 
     @Override
@@ -91,7 +101,8 @@ public class MainActivity extends AppCompatActivity implements PendingCallback{
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
+        if (id == R.id.action_share) {
+            shareIntent();
             return true;
         }
 
